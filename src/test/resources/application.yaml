@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: MetricsConsumer
+server:
+  port: 8081
+
+metricGroup:
+  file: "classpath:metric-groups.yml"
+host:
+  address: "localhost:8081"

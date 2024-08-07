@@ -1,0 +1,3 @@
+# HELP python_gc_objects_collected_seconds Objects collected during gc
+# TYPE python_gc_objects_collected_seconds gauge
+python_gc_objects_collected_seconds{generation="0",_metric_consumer_latest="3992623250"} 4911.0

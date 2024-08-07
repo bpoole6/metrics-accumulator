@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Hello</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style>
+        .yaml{
+            background-color: rgba(236, 236, 236, .5);
+            border-style: outset;
+            border-color: black;
+            border-width: thin;
+        }
+
+    </style>
+</head>
+<body>
+
+    <H2>Configurations</H2>
+    <h3><a href="swagger-ui/index.html#/">Swagger Endpoint</a></h3>
+    <h3>Configuration file: </h3>
+    <p th:text="${config.configurationFile}"></p>
+    <h3>Configuration loaded</h3>
+    <pre class="yaml">
+        <code>
+            <span th:text="${config.configuration}"></span>
+        </code>
+    </pre>
+
+
+</body>
+</html>

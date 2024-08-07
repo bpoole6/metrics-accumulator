@@ -1,0 +1,8 @@
+# HELP proxy_watch_total Total number of connection made
+# TYPE proxy_watch_total counter
+proxy_watch_total{application="proxy_watch",host="proxy.internal.q6cyber.com",ip="8003"} 1211.0
+# HELP proxy_watch_created Total number of connection made
+# TYPE proxy_watch_created gauge
+#proxy_watch_created{application="proxy_watch",host="proxy.internal.q6cyber.com",ip="8003"} 1.7225315143089755e+09
+
+

@@ -1,0 +1,8 @@
+---
+defaults:
+  restartCronExpression: "0 0 0 ? * *"
+metricGroups:
+  default:
+    displayMetrics: false
+    name: default
+    maxTimeSeries: 2500
