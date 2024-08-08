@@ -15,11 +15,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD) //In the future we may want to just reset the registries and maps between tests
-public class ResetConfigurationTest {
+public class ResetConfigurationTest extends  BasicTest{
 
   @Autowired
   private RegistryRepository registryRepository;
@@ -72,7 +73,17 @@ public class ResetConfigurationTest {
 
   }
   @Test
-  public void testSchedulingReload(){
-//    this.scheduledTasks.
+  public void testSchedulingReload() throws InterruptedException {
+    List<Task> oldTasks = this.scheduledTasks.getTasks();
+    this.metricService.resetConfigs();
+    List<Task> newTasks = this.scheduledTasks.getTasks();
+
+    oldTasks.forEach(t->{
+      Assertions.assertTrue(t.getFuture().isCancelled(), "Task is still running when it should be stopped");
+    });
+
+    newTasks.forEach(t->{
+      Assertions.assertFalse(t.getFuture().isCancelled(), "Task is still running when it should be stopped");
+    });
   }
 }

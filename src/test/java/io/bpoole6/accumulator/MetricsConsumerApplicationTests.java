@@ -26,7 +26,7 @@ import prometheus.types.MetricType;
 
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD) //In the future we may want to just reset the registries and maps between tests. Reloading the context may become expensive
-class MetricsConsumerApplicationTests{
+class MetricsConsumerApplicationTests extends  BasicTest{
 
 
 	@Value("classpath:data/default/metrics")

@@ -2,6 +2,7 @@ package io.bpoole6.accumulator;
 
 import io.bpoole6.accumulator.service.RegistryRepository;
 import io.bpoole6.accumulator.service.MetricsAccumulatorConfiguration;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.TaskScheduler;
@@ -9,6 +10,7 @@ import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 
@@ -19,6 +21,7 @@ public class ScheduledTasks {
     private final TaskScheduler executor;
     private final RegistryRepository metrics;
     private final MetricsAccumulatorConfiguration metricsAccumulatorConfiguration;
+
     private final List<Task> tasks = new ArrayList<>();
 
     public ScheduledTasks(@Qualifier("taskScheduler") TaskScheduler taskExecutor,
@@ -60,5 +63,9 @@ public class ScheduledTasks {
                 }
             }, restartCronExpression);
         });
+    }
+
+    public List<Task> getTasks() {
+        return new ArrayList<>(tasks);
     }
 }

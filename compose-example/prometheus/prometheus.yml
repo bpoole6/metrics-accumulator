@@ -27,9 +27,3 @@ scrape_configs:
         target_label: "__metrics_path__"
     http_sd_configs:
       - url: "http://metrics-accumulator:8080/service-discovery"
-  - job_name: "one-love"
-    scrape_interval: 5s
-    metrics_path: /blah.txt
-    static_configs:
-      - targets: ["metrics-accumulator:8080"]
-

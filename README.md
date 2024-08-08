@@ -166,7 +166,7 @@ docker compose up --build --force-recreate
 ```
 
 Wait about 30 seconds for the applications to start up.
-
+Then navigate to http://localhost:9090/targets?search= and make sure your application appears  is visible. Follow the example [Getting Started](#getting-started)/pushing data to see metrics being consumed
 ### How Does It Work?
 
 
