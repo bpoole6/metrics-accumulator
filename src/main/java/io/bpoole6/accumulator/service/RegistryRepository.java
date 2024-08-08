@@ -17,16 +17,16 @@ public class RegistryRepository {
 
   @Getter
   private final Map<Group, MetricManager> registryMap = new HashMap<>();
-  private final MetricGroupConfiguration metricGroupConfiguration;
+  private final MetricsAccumulatorConfiguration metricsAccumulatorConfiguration;
 
-  public RegistryRepository(MetricGroupConfiguration metricGroupConfiguration) {
-   this.metricGroupConfiguration = metricGroupConfiguration;
+  public RegistryRepository(MetricsAccumulatorConfiguration metricsAccumulatorConfiguration) {
+   this.metricsAccumulatorConfiguration = metricsAccumulatorConfiguration;
     reset();
   }
 
   public void reset(){
     registryMap.clear();
-    for (Group metricGroup : metricGroupConfiguration.getMetricGroups().values()) {
+    for (Group metricGroup : metricsAccumulatorConfiguration.getMetricGroups().values()) {
       registryMap.put(metricGroup, new MetricManager(metricGroup.getName()));
     }
   }

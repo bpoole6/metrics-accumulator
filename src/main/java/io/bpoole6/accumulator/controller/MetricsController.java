@@ -4,7 +4,7 @@ import io.bpoole6.accumulator.controller.response.ConfigurationResponse;
 import io.bpoole6.accumulator.controller.response.ServiceDiscovery;
 import io.bpoole6.accumulator.service.MetricService;
 import io.bpoole6.accumulator.service.metricgroup.Group;
-import io.bpoole6.accumulator.service.MetricGroupConfiguration;
+import io.bpoole6.accumulator.service.MetricsAccumulatorConfiguration;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,19 +23,19 @@ import org.springframework.web.servlet.ModelAndView;
 public class MetricsController implements MetricsControllerInterface{
 
   private MetricService metricService;
-  private final MetricGroupConfiguration metricGroupConfiguration;
+  private final MetricsAccumulatorConfiguration metricsAccumulatorConfiguration;
   public MetricsController(MetricService metricService,
-      MetricGroupConfiguration metricGroupConfiguration) {
+      MetricsAccumulatorConfiguration metricsAccumulatorConfiguration) {
     this.metricService = metricService;
-    this.metricGroupConfiguration = metricGroupConfiguration;
+    this.metricsAccumulatorConfiguration = metricsAccumulatorConfiguration;
   }
 
 
   @Override
   public ModelAndView serverStatus(ModelMap map) {
     ConfigurationResponse response = new ConfigurationResponse();
-    response.setConfiguration("\n"+this.metricGroupConfiguration.getFileContent());
-    response.setConfigurationFile(this.metricGroupConfiguration.getConfigurationFile());
+    response.setConfiguration("\n"+this.metricsAccumulatorConfiguration.getFileContent());
+    response.setConfigurationFile(this.metricsAccumulatorConfiguration.getConfigurationFile());
     map.addAttribute("config", response);
     return new ModelAndView("configuration", map);
   }
@@ -51,7 +51,7 @@ public class MetricsController implements MetricsControllerInterface{
 
 
   public ResponseEntity<Object> resetMetricGroup(@PathVariable("metricGroup") String metricGroup) throws InterruptedException {
-    Group group = this.metricGroupConfiguration.getMetricGroups().get(metricGroup.toLowerCase());
+    Group group = this.metricsAccumulatorConfiguration.getMetricGroups().get(metricGroup.toLowerCase());
 
     if( metricService.resetMetricGroup(group)) {
       return new ResponseEntity<>("Metrics reset for %s".formatted(metricGroup), HttpStatus.OK);
@@ -65,7 +65,7 @@ public class MetricsController implements MetricsControllerInterface{
   public ResponseEntity<String> receiveMetrics(@PathVariable("metricGroup") String metricGroup, @RequestBody String metrics)
           throws IOException, InterruptedException {
     Optional<Group> contextMetricGroup = getMetricGroupFromSecurityContext();
-    Group group = this.metricGroupConfiguration.getMetricGroups().get(metricGroup.toLowerCase());
+    Group group = this.metricsAccumulatorConfiguration.getMetricGroups().get(metricGroup.toLowerCase());
 
     if (Objects.nonNull(group)) {
       if(contextMetricGroup.isPresent() && !group.equals(contextMetricGroup.get())) {
@@ -80,7 +80,7 @@ public class MetricsController implements MetricsControllerInterface{
 
 
   public ResponseEntity<String> metrics(@PathVariable("metricGroup") String metricName) {
-    Group group = this.metricGroupConfiguration.getMetricGroups().get(metricName.toLowerCase());
+    Group group = this.metricsAccumulatorConfiguration.getMetricGroups().get(metricName.toLowerCase());
     if (Objects.isNull(group)) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -94,7 +94,7 @@ public class MetricsController implements MetricsControllerInterface{
   }
 
   public ResponseEntity<List<ServiceDiscovery>> serviceDiscovery() {
-    List<ServiceDiscovery> list = this.metricGroupConfiguration.getNames().stream().map(i-> new ServiceDiscovery("metrics/" + i, metricGroupConfiguration.getHostAddress())).toList();
+    List<ServiceDiscovery> list = this.metricsAccumulatorConfiguration.getNames().stream().map(i-> new ServiceDiscovery("metrics/" + i, metricsAccumulatorConfiguration.getHostAddress())).toList();
 
     return new ResponseEntity<>(list, HttpStatus.OK);
   }
@@ -102,8 +102,8 @@ public class MetricsController implements MetricsControllerInterface{
 
   public ResponseEntity<ConfigurationResponse> currentConfigurations(){
     ConfigurationResponse response = new ConfigurationResponse();
-    response.setConfiguration(this.metricGroupConfiguration.getFileContent());
-    response.setConfigurationFile(this.metricGroupConfiguration.getConfigurationFile());
+    response.setConfiguration(this.metricsAccumulatorConfiguration.getFileContent());
+    response.setConfigurationFile(this.metricsAccumulatorConfiguration.getConfigurationFile());
     return new ResponseEntity<>(response,HttpStatus.OK);
   }
 

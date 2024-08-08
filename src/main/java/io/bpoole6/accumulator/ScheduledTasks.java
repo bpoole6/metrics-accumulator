@@ -1,7 +1,7 @@
 package io.bpoole6.accumulator;
 
 import io.bpoole6.accumulator.service.RegistryRepository;
-import io.bpoole6.accumulator.service.MetricGroupConfiguration;
+import io.bpoole6.accumulator.service.MetricsAccumulatorConfiguration;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.TaskScheduler;
@@ -18,15 +18,15 @@ public class ScheduledTasks {
 
     private final TaskScheduler executor;
     private final RegistryRepository metrics;
-    private final MetricGroupConfiguration metricGroupConfiguration;
+    private final MetricsAccumulatorConfiguration metricsAccumulatorConfiguration;
     private final List<Task> tasks = new ArrayList<>();
 
     public ScheduledTasks(@Qualifier("taskScheduler") TaskScheduler taskExecutor,
                           RegistryRepository metrics,
-                          MetricGroupConfiguration metricGroupConfiguration) {
+                          MetricsAccumulatorConfiguration metricsAccumulatorConfiguration) {
         this.executor = taskExecutor;
         this.metrics = metrics;
-        this.metricGroupConfiguration = metricGroupConfiguration;
+        this.metricsAccumulatorConfiguration = metricsAccumulatorConfiguration;
         reset();
     }
 
@@ -50,7 +50,7 @@ public class ScheduledTasks {
         metrics.getRegistryMap().forEach((group, metricManager) -> {
             String restartCronExpression = group.getRestartCronExpression();
             if(restartCronExpression == null) {
-                restartCronExpression = metricGroupConfiguration.getGlobal().getRestartCronExpression();
+                restartCronExpression = metricsAccumulatorConfiguration.getGlobal().getRestartCronExpression();
             }
             scheduling(group.getName(), () -> {
                 try {

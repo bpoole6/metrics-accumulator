@@ -1,6 +1,6 @@
 package io.bpoole6.accumulator.security;
 
-import io.bpoole6.accumulator.service.MetricGroupConfiguration;
+import io.bpoole6.accumulator.service.MetricsAccumulatorConfiguration;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
@@ -16,17 +16,17 @@ import org.springframework.web.filter.GenericFilterBean;
 
 public class AuthenticationFilter extends GenericFilterBean {
 
-    private final MetricGroupConfiguration metricGroupConfiguration;
+    private final MetricsAccumulatorConfiguration metricsAccumulatorConfiguration;
 
-    public AuthenticationFilter(MetricGroupConfiguration metricGroupConfiguration) {
+    public AuthenticationFilter(MetricsAccumulatorConfiguration metricsAccumulatorConfiguration) {
 
-      this.metricGroupConfiguration = metricGroupConfiguration;
+      this.metricsAccumulatorConfiguration = metricsAccumulatorConfiguration;
     }
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
       throws IOException, ServletException {
         try {
-            Authentication authentication = AuthenticationService.getAuthentication((HttpServletRequest) request, metricGroupConfiguration);
+            Authentication authentication = AuthenticationService.getAuthentication((HttpServletRequest) request, metricsAccumulatorConfiguration);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (Exception exp) {
             HttpServletResponse httpResponse = (HttpServletResponse) response;

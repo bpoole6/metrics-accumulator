@@ -1,27 +1,20 @@
 package io.bpoole6.accumulator;
 
-import io.bpoole6.accumulator.service.MetricGroupConfiguration;
+import io.bpoole6.accumulator.service.MetricsAccumulatorConfiguration;
 import io.bpoole6.accumulator.service.MetricManager;
 import io.bpoole6.accumulator.service.MetricService;
 import io.bpoole6.accumulator.service.RegistryRepository;
 import io.bpoole6.accumulator.service.metricgroup.Group;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.test.annotation.DirtiesContext;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
@@ -38,14 +31,14 @@ public class ResetConfigurationTest {
   private ScheduledTasks scheduledTasks;
 
   @Autowired
-  private MetricGroupConfiguration metricGroupConfiguration;
+  private MetricsAccumulatorConfiguration metricsAccumulatorConfiguration;
 
   @Test
   void testMetricReset() throws IOException, InterruptedException {
 
     String oldName = "oldName";
     String newName = "newName";
-    Path path = Paths.get(this.metricGroupConfiguration.getConfigurationFile());
+    Path path = Paths.get(this.metricsAccumulatorConfiguration.getConfigurationFile());
     Files.writeString(path, TestUtils.metricsFile(oldName));
     this.metricService.resetConfigs();
 

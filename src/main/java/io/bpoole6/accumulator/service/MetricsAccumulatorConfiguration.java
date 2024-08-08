@@ -5,15 +5,12 @@ import io.bpoole6.accumulator.service.metricgroup.Group;
 import io.bpoole6.accumulator.service.metricgroup.Root;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -30,10 +27,10 @@ import java.util.stream.Collectors;
  * between dev/prod. An enum class wouldn't be able to easily differentiate between the two profiles
  * like you can do with configurations files
  */
-@Configuration
+@Component
 @Data
 @Slf4j
-public class MetricGroupConfiguration {
+public class MetricsAccumulatorConfiguration {
     public static final String CONFIGURATION_OPTS = "config-file";
     private String hostAddress;
     private Global global;
@@ -41,7 +38,7 @@ public class MetricGroupConfiguration {
     private Map<String, Group> metricGroupByApiKey;
     private String configurationFile;
     private String fileContent;
-    public MetricGroupConfiguration( ApplicationArguments arguments)
+    public MetricsAccumulatorConfiguration(ApplicationArguments arguments)
             throws IOException {
         if(!arguments.containsOption(CONFIGURATION_OPTS)){
             log.error("--%s option is not set".formatted(CONFIGURATION_OPTS));

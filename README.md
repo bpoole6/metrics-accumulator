@@ -1,25 +1,11 @@
-# Metrics-Accumulator
-
 <h1 align="center" style="border-bottom: none">
-   <img alt="Prometheus" src="/documentation/images/logo.svg"><br>Metrics Accumulator
+   <img alt="Metrics Accumulator" src="/documentation/images/logo.svg" width="600"><br>Metrics Accumulator
 </h1>
 
-<!-- TOC -->
-* [Metrics-Accumulator](#metrics-accumulator)
-  * [Description](#description)
-  * [Supported Types](#supported-types)
-    * [Counters](#counters)
-    * [Gauges](#gauges)
-  * [How to Utilize this service.](#how-to-utilize-this-service)
-    * [Configurations](#configurations)
-      * [<u>Under global</u>](#uunder-globalu)
-      * [<u>Under metricGroups</u>](#uunder-metricgroupsu)
-  * [Service Discovery](#service-discovery)
-    * [How Does It Work?](#how-does-it-work)
-<!-- TOC -->
+
 
 ## Description
-The metric accumulator will accumulate additively time-series metrics for ephemeral jobs such as 
+The metric accumulator will accumulate additively time-series metrics for ephemeral jobs such as. 
 
 - GCP CloudRun
 - GCP Functions
@@ -28,11 +14,28 @@ The metric accumulator will accumulate additively time-series metrics for epheme
 - Cron Jobs running somewhere
 - ETC
 
-## Program Arguements
+This is an alternative to Prometheus Pushgateway for when you need persistent data on "subsequent" metric pushes.
+
+## Features
+- Aggregates metrics
+- Has TTL for metrics
+- hot reload configurations
+
+## Program Arguments
 |Argument| Description                    | Example                                                     | Required |
 | --- |--------------------------------|-------------------------------------------------------------|----------|
 |--config-file | path to the configuration file | /metrics-accumulator.jar --config-file=/path/to/configs.yml | yes      |
+
 ## Getting Started
+
+### Docker
+Start docker container
+```bash
+ docker run \ 
+   -p 8080:8080 \ 
+   bpoole6/metrics-accumulator
+```
+### Locally
 
 **Build the project**
 ```bash
@@ -75,6 +78,9 @@ test_total{span_id="321",trace_id="123"} 10.0
 
 You'll notice that `test_total` has a value of 10 
 
+**Swagger**
+
+You can run this example at the swagger endpoint http://localhost:8080/swagger-ui/index.html#/
 ## Supported Types
 
 ### Counters
@@ -85,6 +91,7 @@ Counters will be combined additively
 Gauages are a special case. If you set the label `_metrics_accumulator_latest` to the current epoch time or any number. When a new gague value comes in for that time series it'll compare the label values of `_metrics_accumulator_latest` to the cached guage and the new one.
 
 `_metrics_accumulator_latest` is not displayed when scraping.
+
 
 
 ## How to Utilize this service.
@@ -112,7 +119,7 @@ metricGroups:
 ```
 ### Configurations
 
-#### <u>Under global</u>
+#### Under Global
 
 **restartCronExpression**
 
@@ -123,7 +130,7 @@ metricGroups:
 
  
 
-#### <u>Under metricGroups</u>
+#### Under MetricGroups
 
 | Attributes            | Description                                                                                                                                                                                                                                        |
 |-----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|

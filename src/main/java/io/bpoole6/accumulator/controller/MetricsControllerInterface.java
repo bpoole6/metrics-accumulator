@@ -63,8 +63,6 @@ interface MetricsControllerInterface {
           @ApiResponse(responseCode = "401", description = "You authenticated but apiKey doesn't correspond to metric Group supplied"),
   })
   @PostMapping(value = "update/{metricGroup}", consumes = {"text/plain"})
-//  @ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, allowEmptyValue = false, paramType = "header", dataTypeClass = String::class, example = "Bearer access_token")
-
   ResponseEntity<String> receiveMetrics(@PathVariable("metricGroup") String metricGroup, @RequestBody String metrics)
           throws IOException, InterruptedException;
 

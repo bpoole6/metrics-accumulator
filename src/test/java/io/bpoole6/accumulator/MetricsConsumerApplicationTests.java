@@ -3,27 +3,19 @@ package io.bpoole6.accumulator;
 import io.bpoole6.accumulator.service.MetricService;
 import io.bpoole6.accumulator.service.RegistryRepository;
 import io.bpoole6.accumulator.service.metricgroup.Group;
-import io.bpoole6.accumulator.service.MetricGroupConfiguration;
+import io.bpoole6.accumulator.service.MetricsAccumulatorConfiguration;
 import io.bpoole6.accumulator.util.Utils;
 import io.micrometer.prometheusmetrics.PrometheusMeterRegistry;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.Resource;
 import org.springframework.test.annotation.DirtiesContext;
 import prometheus.types.Counter;
@@ -54,7 +46,7 @@ class MetricsConsumerApplicationTests{
 
 	private Group defaultGroup;
 	@Autowired
-	private MetricGroupConfiguration metricGroupConfiguration;
+	private MetricsAccumulatorConfiguration metricsAccumulatorConfiguration;
 
 	public MetricsConsumerApplicationTests() {
 

@@ -1,6 +1,6 @@
 package io.bpoole6.accumulator;
 
-import io.bpoole6.accumulator.service.MetricGroupConfiguration;
+import io.bpoole6.accumulator.service.MetricsAccumulatorConfiguration;
 import org.mockito.Mockito;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -23,8 +23,8 @@ public class BasicTest {
       Path path = TestUtils.createMetricsFile();
       List<String> configFiles = new ArrayList<>();
       configFiles.add(path.toAbsolutePath().toString());
-      Mockito.when(arguments.containsOption(MetricGroupConfiguration.CONFIGURATION_OPTS)).thenReturn(true);
-      Mockito.when(arguments.getOptionValues(MetricGroupConfiguration.CONFIGURATION_OPTS)).thenReturn(configFiles);
+      Mockito.when(arguments.containsOption(MetricsAccumulatorConfiguration.CONFIGURATION_OPTS)).thenReturn(true);
+      Mockito.when(arguments.getOptionValues(MetricsAccumulatorConfiguration.CONFIGURATION_OPTS)).thenReturn(configFiles);
 
       return  arguments;
     }

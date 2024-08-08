@@ -19,14 +19,14 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 @Slf4j
 public class MetricService {
 
-  private final MetricGroupConfiguration metricGroupConfiguration;
+  private final MetricsAccumulatorConfiguration metricsAccumulatorConfiguration;
   private final ScheduledTasks scheduledTasks;
   private RegistryRepository registryRepository;
   private final ReentrantReadWriteLock reentrantReadWriteLock = new ReentrantReadWriteLock();
 
-  public MetricService(RegistryRepository registryRepository, MetricGroupConfiguration metricGroupConfiguration, ScheduledTasks scheduledTasks) {
+  public MetricService(RegistryRepository registryRepository, MetricsAccumulatorConfiguration metricsAccumulatorConfiguration, ScheduledTasks scheduledTasks) {
     this.registryRepository = registryRepository;
-    this.metricGroupConfiguration = metricGroupConfiguration;
+    this.metricsAccumulatorConfiguration = metricsAccumulatorConfiguration;
     this.scheduledTasks = scheduledTasks;
   }
 
@@ -77,7 +77,7 @@ public class MetricService {
     ReentrantReadWriteLock.WriteLock writeLock = reentrantReadWriteLock.writeLock();
     if(writeLock.tryLock(20,TimeUnit.SECONDS)) {
       try {
-        metricGroupConfiguration.resetConfiguration();
+        metricsAccumulatorConfiguration.resetConfiguration();
         registryRepository.reset();
         scheduledTasks.reset();
         return true;

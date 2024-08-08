@@ -1,6 +1,6 @@
 package io.bpoole6.accumulator.security;
 
-import io.bpoole6.accumulator.service.MetricGroupConfiguration;
+import io.bpoole6.accumulator.service.MetricsAccumulatorConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -15,10 +15,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class CustomWebSecurityConfigurerAdapter {
-    private final MetricGroupConfiguration metricGroupConfiguration;
+    private final MetricsAccumulatorConfiguration metricsAccumulatorConfiguration;
 
-    public CustomWebSecurityConfigurerAdapter(MetricGroupConfiguration metricGroupConfiguration) {
-        this.metricGroupConfiguration = metricGroupConfiguration;
+    public CustomWebSecurityConfigurerAdapter(MetricsAccumulatorConfiguration metricsAccumulatorConfiguration) {
+        this.metricsAccumulatorConfiguration = metricsAccumulatorConfiguration;
     }
 
     @Bean
@@ -33,7 +33,7 @@ public class CustomWebSecurityConfigurerAdapter {
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer.sessionCreationPolicy(
                         SessionCreationPolicy.STATELESS))
-                .addFilterBefore(new AuthenticationFilter(this.metricGroupConfiguration), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new AuthenticationFilter(this.metricsAccumulatorConfiguration), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
