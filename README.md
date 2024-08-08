@@ -2,7 +2,23 @@
    <img alt="Metrics Accumulator" src="/documentation/images/logo.svg" width="600"><br>Metrics Accumulator
 </h1>
 
-
+<!-- TOC -->
+  * [Description](#description)
+  * [Features](#features)
+  * [Program Arguments](#program-arguments)
+  * [Getting Started](#getting-started)
+    * [Docker](#docker)
+    * [Locally](#locally)
+  * [Supported Types](#supported-types)
+    * [Counters](#counters)
+    * [Gauges](#gauges)
+  * [How to Utilize this service.](#how-to-utilize-this-service)
+    * [Configurations](#configurations)
+      * [Under Global](#under-global)
+      * [Under MetricGroups](#under-metricgroups)
+  * [Service Discovery](#service-discovery)
+    * [How Does It Work?](#how-does-it-work)
+<!-- TOC -->
 
 ## Description
 The metric accumulator will accumulate additively time-series metrics for ephemeral jobs such as. 
