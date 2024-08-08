@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class RegistryRepository {
 
-  public static final String META_DATA_PREFIX = "_metric_consumer_";
+  public static final String META_DATA_PREFIX = "_metrics_accumulator_";
   public static final String META_DATA_LATEST = META_DATA_PREFIX + "latest";
 
   @Getter

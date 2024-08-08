@@ -1,0 +1,4 @@
+# TYPE mega_total counter
+# HELP mega_total
+mega_total {span_id="321",trace_id="124",a="df"} 5.0
+mega_total 5.0

@@ -4,6 +4,8 @@ import io.bpoole6.accumulator.controller.response.ConfigurationResponse;
 import io.bpoole6.accumulator.controller.response.ServiceDiscovery;
 import io.bpoole6.accumulator.service.metricgroup.Group;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
@@ -23,18 +25,23 @@ interface MetricsControllerInterface {
   @GetMapping("/")
   public ModelAndView serverStatus(ModelMap map);
   @Operation(
-          summary = "Reloaded the loaded configuration",
-          description = "Reloads configuration that were passed in via --config-file. The File source will be reread from storage")
+          summary = "Reloaded the loaded configuration. All Metrics will be erased",
+          description = "Reloads configuration that were passed in via --config-file. The File source will be reread from storage. All Metrics will be erased")
   @ApiResponses(value = {
           @ApiResponse(responseCode = "200", description = "succeeded to reload configurations"),
           @ApiResponse(responseCode = "417", description = "failed to reload configurations")
   })
+
   @PutMapping(value = "reload-configuration")
-  ResponseEntity<Object> resetConfig() throws InterruptedException;
+  ResponseEntity<Object> reloadConfig() throws InterruptedException;
 
   @Operation(
           summary = "Erases the metric group metrics out of memory.",
-          description = "Erases the metric group metrics out of memory.")
+          description = "Erases the metric group metrics out of memory.",
+          parameters = {
+                  @Parameter(name = "metricGroup",  required = true,  in = ParameterIn.PATH,description = "The name of your metric group",example = "default")
+          }
+  )
   @ApiResponses(value = {
           @ApiResponse(responseCode = "200", description = "succeeded to erase metrics for metric group"),
           @ApiResponse(responseCode = "417", description = "failed to erase metrics for metric group")
@@ -45,19 +52,28 @@ interface MetricsControllerInterface {
 
   @Operation(
           summary = "Updates metric group metrics.",
-          description = "Updates metric group metrics.")
+          description = "Updates metric group metrics.",
+          parameters = {
+                  @Parameter(name = "X-API-KEY",  required = true,  in = ParameterIn.HEADER, example = "0d98f65f-074b-4d56-b834-576e15a3bfa5"),
+                  @Parameter(name = "metricGroup",  required = true,  in = ParameterIn.PATH,description = "The name of your metric group",example = "default")
+          })
   @ApiResponses(value = {
-          @ApiResponse(responseCode = "200", description = "Succeeded to update the configurations"),
+          @ApiResponse(responseCode = "201", description = "Succeeded to update the configurations"),
           @ApiResponse(responseCode = "404", description = "Metric group doesn't exist"),
           @ApiResponse(responseCode = "401", description = "You authenticated but apiKey doesn't correspond to metric Group supplied"),
   })
   @PostMapping(value = "update/{metricGroup}", consumes = {"text/plain"})
+//  @ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, allowEmptyValue = false, paramType = "header", dataTypeClass = String::class, example = "Bearer access_token")
+
   ResponseEntity<String> receiveMetrics(@PathVariable("metricGroup") String metricGroup, @RequestBody String metrics)
           throws IOException, InterruptedException;
 
   @Operation(
           summary = "Returns the metrics for a metrics group.",
-          description = "Returns the metrics for a metrics group.")
+          description = "Returns the metrics for a metrics group.",
+  parameters = {
+          @Parameter(name = "metricGroup",  required = true,  in = ParameterIn.PATH, example = "default")
+          })
   @ApiResponses(value = {
           @ApiResponse(responseCode = "200", description = "Succeeded to get metric group's metrics"),
           @ApiResponse(responseCode = "404", description = "Metric group doesn't exist"),

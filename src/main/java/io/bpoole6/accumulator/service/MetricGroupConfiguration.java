@@ -93,6 +93,8 @@ public class MetricGroupConfiguration {
             root.getMetricGroups().forEach((k,v)->{
                 if(Objects.isNull(v.getName())){
                     sj.add("name is unset for metricGroup %s".formatted(k));
+                }else if (!v.getName().matches("^[-a-zA-Z0-9_]+")){
+                    sj.add("name doesn't match regex ^[-a-zA-Z0-9_]+");
                 }
                 if(Objects.isNull(v.getApiKey())){
                     sj.add("apiKey is unset for metricGroup %s".formatted(k));

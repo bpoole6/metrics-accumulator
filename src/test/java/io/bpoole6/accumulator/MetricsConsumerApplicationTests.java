@@ -33,8 +33,8 @@ import prometheus.types.MetricFamily;
 import prometheus.types.MetricType;
 
 @SpringBootTest
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD) //In the future we may want to just reset the registries and maps between tests
-class MetricsConsumerApplicationTests extends BasicTest{
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD) //In the future we may want to just reset the registries and maps between tests. Reloading the context may become expensive
+class MetricsConsumerApplicationTests{
 
 
 	@Value("classpath:data/default/metrics")
@@ -99,7 +99,7 @@ class MetricsConsumerApplicationTests extends BasicTest{
 		String formatted = """
 				# HELP python%s_gc_objects_collected_seconds Objects collected during gc
 				# TYPE python%s_gc_objects_collected_seconds gauge
-				python%s_gc_objects_collected_seconds{generation="0",_metric_consumer_latest="3992623250"} 4911.0
+				python%s_gc_objects_collected_seconds{generation="0",_metrics_accumulator_latest="3992623250"} 4911.0
 				""";
 		String strings = "";
 		for(int i = 0; i < 150; i++) {

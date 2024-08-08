@@ -40,7 +40,7 @@ public class MetricsController implements MetricsControllerInterface{
     return new ModelAndView("configuration", map);
   }
   @Override
-  public ResponseEntity<Object> resetConfig() throws InterruptedException {
+  public ResponseEntity<Object> reloadConfig() throws InterruptedException {
     boolean reset = this.metricService.resetConfigs();
     if(reset) {
       return new ResponseEntity<>("configurations has been reloaded", HttpStatus.OK);

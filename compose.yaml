@@ -1,0 +1,43 @@
+services:
+  web:
+    container_name: metrics-accumulator
+    build:
+      dockerfile: compose-example/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      PORT: 8080
+    networks:
+      - private-network
+#    healthcheck:
+#      test: [ "CMD", "wget", "-O", "-", "http://localhost:8080" ]
+#      interval: 20s
+#      timeout: 2s
+#      retries: 5
+
+  prometheus:
+    container_name: prometheus-server
+    image: "prom/prometheus:v2.52.0"
+    ports:
+      - "9090:9090"
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+    volumes:
+      - prometheus:/etc/prometheus
+    networks:
+      - private-network
+#    depends_on:
+#      web:
+#        condition: service_healthy
+volumes:
+  prometheus:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ./compose-example/prometheus
+networks:
+  private-network:
+    driver: bridge
+

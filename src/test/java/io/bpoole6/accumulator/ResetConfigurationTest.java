@@ -26,7 +26,7 @@ import java.util.Optional;
 
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD) //In the future we may want to just reset the registries and maps between tests
-public class ResetConfigurationTest extends BasicTest{
+public class ResetConfigurationTest {
 
   @Autowired
   private RegistryRepository registryRepository;
@@ -67,7 +67,7 @@ public class ResetConfigurationTest extends BasicTest{
     String metrics = """
 				# HELP python_gc_objects_collected_seconds Objects collected during gc
 				# TYPE python_gc_objects_collected_seconds gauge
-				python_gc_objects_collected_seconds{generation="0",_metric_consumer_latest="3992623250"} 4911.0
+				python_gc_objects_collected_seconds{generation="0",_metrics_accumulator_latest="3992623250"} 4911.0
 				""";
     Group group = this.registryRepository.getRegistryMap().keySet().stream().findFirst().get();
     this.metricService.modifyMetrics(metrics, group);
@@ -78,5 +78,8 @@ public class ResetConfigurationTest extends BasicTest{
     Assertions.assertEquals(0, oldManager.getPrometheusRegistry().getPrometheusRegistry().scrape().size());
 
   }
-
+  @Test
+  public void testSchedulingReload(){
+//    this.scheduledTasks.
+  }
 }

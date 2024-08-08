@@ -4,17 +4,16 @@ import io.bpoole6.accumulator.util.RunnableThrowable;
 import io.bpoole6.accumulator.util.Utils;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.Gauge;
+import io.micrometer.core.instrument.Tag;
 import io.micrometer.prometheusmetrics.PrometheusConfig;
 import io.micrometer.prometheusmetrics.PrometheusMeterRegistry;
+import io.prometheus.metrics.model.registry.PrometheusRegistry;
 import lombok.Getter;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.StringJoiner;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -67,7 +66,7 @@ public class MetricManager {
     public void setGauge(MetricKey key, prometheus.types.Gauge metric) {
         RunnableThrowable runnable = () -> {
             StringJoiner sj = new StringJoiner(",");
-            Map<String, String> tags = stripMetaData(key.getTags());
+            Map<String, String> tags = RegistryRepository.stripMetaData(key.getTags());
             Long timestampOpt = latestTimestamp(key.getTags()).orElse(0L);
 
             key.getTags().forEach((k, v) -> {
@@ -149,16 +148,4 @@ public class MetricManager {
             throw new RuntimeException(e);
         }
     }
-
-
-    public static Map<String, String> stripMetaData(Map<String, String> labels) {
-        Map<String, String> map = new HashMap<>();
-        labels.forEach((k, v) -> {
-            if (!k.startsWith(RegistryRepository.META_DATA_PREFIX)) {
-                map.put(k, v);
-            }
-        });
-        return map;
-    }
-
 }
