@@ -35,12 +35,23 @@ This is an alternative to Prometheus Pushgateway for when you need persistent da
 ## Features
 - Aggregates metrics
 - Has TTL for metrics
-- hot reload configurations
+- Hot reload configurations
 
 ## Program Arguments
 |Argument| Description                    | Example                                                     | Required |
 | --- |--------------------------------|-------------------------------------------------------------|----------|
 |--config-file | path to the configuration file | /metrics-accumulator.jar --config-file=/path/to/configs.yml | yes      |
+
+### API
+| Api Endpoint                      | Method | Required Headers | Description                                                                                                                          |
+|-----------------------------------|--------|------------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| /reset-metric-group/{metricGroup} | PUT    | N/A              | Erases the metric group metrics out of memory.                                                                                       |
+| /reload-configuration             | PUT    | N/A              | Reloads configuration that were passed in via --config-file. The File source will be reread from storage. All Metrics will be erased |
+| /update/{metricGroup}             | POST   | X-API-KEY        | Updates metric group metrics.                                                                                                        |
+| /service-discovery             | GET    | N/A              | A service discovery mechanism for prometheus Please see documentation https://prometheus.io/docs/prometheus/latest/http_sd/          |
+| /metrics/{metricGroup}            | GET    | N/A              | Returns the metrics for a metrics group.                                                                                             |
+| /current-configuations            | GET    | N/A              | Displays the current loaded configurations                                                                                           |
+| /swagger-ui/index.html#/            | GET    | N/A              | Swagger Endpoint                                                                                                                     |
 
 ## Getting Started
 
@@ -155,6 +166,7 @@ metricGroups:
 | maxTimeSeries         | The maximum number of timeseries you can have in memory for your service. To deal with stale time series we have the *restartCronExpression* your metrics from history.                                                                            |
 | apiKey                | The apikey must be passed in the header `X-API-KEY` when you POST your metrics. This helps to prevent an accidental POST to another metric Group or another environment such as prod/dev/qa.                                                       |
 | restartCronExpression |Used to set when your metrics are wiped from memory. This is useful getting rid of stale data. Ideally your data should be wiped at least once a week or more. |
+
 
 ## Service Discovery
 
