@@ -6,6 +6,7 @@
   * [Description](#description)
   * [Features](#features)
   * [Program Arguments](#program-arguments)
+  * [API](#api)
   * [Getting Started](#getting-started)
     * [Docker](#docker)
     * [Locally](#locally)
@@ -42,7 +43,7 @@ This is an alternative to Prometheus Pushgateway for when you need persistent da
 | --- |--------------------------------|-------------------------------------------------------------|----------|
 |--config-file | path to the configuration file | /metrics-accumulator.jar --config-file=/path/to/configs.yml | yes      |
 
-### API
+## API
 | Api Endpoint                      | Method | Required Headers | Description                                                                                                                          |
 |-----------------------------------|--------|------------------|--------------------------------------------------------------------------------------------------------------------------------------|
 | /reset-metric-group/{metricGroup} | PUT    | N/A              | Erases the metric group metrics out of memory.                                                                                       |
