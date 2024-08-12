@@ -116,7 +116,7 @@ Counters will be combined additively
 
 
 ### Gauges
-Gauages are a special case. If you set the label `_metrics_accumulator_latest` to the current epoch time or any number. When a new gague value comes in for that time series it'll compare the label values of `_metrics_accumulator_latest` to the cached guage and the new one.
+Gauges are a special case. When a new gauge value comes then the last guage value to be added will be preserved. To change this behavior you can set the label `_metrics_accumulator_latest` with the value of a number such as the epoch time. Subsequent pushes on the same gauge will compare the vlaue of  `_metrics_accumulator_latest` and largest number will be persisted.
 
 `_metrics_accumulator_latest` is not displayed when scraping.
 
