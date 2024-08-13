@@ -8,7 +8,7 @@ public class TestUtils {
 
 	public static Path createMetricsFile() throws IOException {
 		Path path = Files.createTempFile("config",".yml");
-		Files.writeString(path,metricsFile("test"));
+		Files.writeString(path,metricsFile("test-Metrics"));
 		return path;
 	}
   public static String metricsFile(String name){
