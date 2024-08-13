@@ -3,6 +3,7 @@ package io.bpoole6.accumulator.service;
 import io.bpoole6.accumulator.service.metricgroup.Global;
 import io.bpoole6.accumulator.service.metricgroup.Group;
 import io.bpoole6.accumulator.service.metricgroup.Root;
+import java.util.function.Function;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
@@ -54,7 +55,8 @@ public class MetricsAccumulatorConfiguration {
         String content = Files.readString(file.toPath());
         Root root = yaml.loadAs(content, Root.class);
         validateConfigs(root);
-        this.metricGroups = root.getMetricGroups();
+        this.metricGroups = root.getMetricGroups().values().stream().collect(Collectors.toMap(i->i.getName(),
+            Function.identity()));
         this.hostAddress = root.getGlobal().getHostAddress();
         this.metricGroupByApiKey = metricGroups.values().stream().collect(Collectors.toMap(Group::getApiKey, g -> g));
         this.global = root.getGlobal();
