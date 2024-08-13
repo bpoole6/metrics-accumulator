@@ -62,7 +62,7 @@ public class MetricsController implements MetricsControllerInterface{
 
 
 
-  public ResponseEntity<String> receiveMetrics(@PathVariable("metricGroup") String metricGroup, @RequestBody String metrics)
+  public ResponseEntity<String> updateMetrics(@PathVariable("metricGroup") String metricGroup, @RequestBody String metrics)
           throws IOException, InterruptedException {
     Optional<Group> contextMetricGroup = getMetricGroupFromSecurityContext();
     Group group = this.metricsAccumulatorConfiguration.getMetricGroups().get(metricGroup);

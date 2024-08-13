@@ -63,7 +63,7 @@ interface MetricsControllerInterface {
           @ApiResponse(responseCode = "401", description = "You authenticated but apiKey doesn't correspond to metric Group supplied"),
   })
   @PostMapping(value = "update/{metricGroup}", consumes = {"text/plain"})
-  ResponseEntity<String> receiveMetrics(@PathVariable("metricGroup") String metricGroup, @RequestBody String metrics)
+  ResponseEntity<String> updateMetrics(@PathVariable("metricGroup") String metricGroup, @RequestBody String metrics)
           throws IOException, InterruptedException;
 
   @Operation(
