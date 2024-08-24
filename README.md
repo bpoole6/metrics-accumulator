@@ -51,7 +51,7 @@ This is an alternative to Prometheus Pushgateway for when you need persistent da
 | /update/{metricGroup}             | POST   | X-API-KEY        | Updates metric group metrics.                                                                                                        |
 | /service-discovery             | GET    | N/A              | A service discovery mechanism for prometheus Please see documentation https://prometheus.io/docs/prometheus/latest/http_sd/          |
 | /metrics/{metricGroup}            | GET    | N/A              | Returns the metrics for a metrics group.                                                                                             |
-| /current-configuations            | GET    | N/A              | Displays the current loaded configurations                                                                                           |
+| /current-configurations            | GET    | N/A              | Displays the current loaded configurations                                                                                           |
 | /swagger-ui/index.html#/            | GET    | N/A              | Swagger Endpoint                                                                                                                     |
 
 ## Getting Started
