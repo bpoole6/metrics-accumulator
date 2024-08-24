@@ -94,7 +94,7 @@ interface MetricsControllerInterface {
   @ApiResponses(value = {
           @ApiResponse(responseCode = "200"),
   })
-  @GetMapping(value = "current-configuations")
+  @GetMapping(value = "current-configurations")
   ResponseEntity<ConfigurationResponse> currentConfigurations();
 
   Optional<Group> getMetricGroupFromSecurityContext();
