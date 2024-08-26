@@ -69,7 +69,7 @@ public class MetricManager {
             Map<String, String> tags = RegistryRepository.stripMetaData(key.getTags());
             Long timestampOpt = latestTimestamp(key.getTags()).orElse(0L);
 
-            key.getTags().forEach((k, v) -> {
+            tags.forEach((k, v) -> {
                 sj.add(k);
                 sj.add(v);
             });
@@ -83,7 +83,7 @@ public class MetricManager {
                 }
                 Gauge.Builder builder = Gauge.builder(k.getMetricName(), mv, MetricValue::getValue)
                         .description(key.getHelp());
-                if (!key.getTags().isEmpty()) {
+                if (!tags.isEmpty()) {
                     builder.tags(labels);
                 }
                 builder.register(pr);
