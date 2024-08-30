@@ -94,7 +94,9 @@ public class MetricsController implements MetricsControllerInterface{
   }
 
   public ResponseEntity<List<ServiceDiscovery>> serviceDiscovery() {
-    List<ServiceDiscovery> list = this.metricsAccumulatorConfiguration.getNames().stream().map(i-> new ServiceDiscovery("metrics/" + i, metricsAccumulatorConfiguration.getHostAddress())).toList();
+    List<ServiceDiscovery> list = this.metricsAccumulatorConfiguration.getMetricGroups().values().stream()
+            .filter(Group::isDisplayMetrics)
+            .map(i-> new ServiceDiscovery("metrics/" + i.getName(), metricsAccumulatorConfiguration.getHostAddress(), i.getServiceDiscoveryLabels())).toList();
 
     return new ResponseEntity<>(list, HttpStatus.OK);
   }

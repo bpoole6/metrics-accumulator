@@ -11,8 +11,8 @@ public class ServiceDiscovery {
 
   private List<String> targets;
   private Map<String,String> labels;
-  public ServiceDiscovery(String metricGroupName, String target) {
-    labels = new HashMap<>();
+  public ServiceDiscovery(String metricGroupName, String target, Map<String, String> serviceDiscoveryLabels) {
+    labels = new HashMap<>(serviceDiscoveryLabels);
     targets = new ArrayList<>();
     targets.add(target);
     labels.put("__meta_metrics_path", metricGroupName);

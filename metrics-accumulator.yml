@@ -11,3 +11,6 @@ metricGroups:
     maxTimeSeries: 2500
     apiKey: 0d98f65f-074b-4d56-b834-576e15a3bfa5
     restartCronExpression: "0 0 0 ? * *"
+    serviceDiscoveryLabels:
+      env: "dev"
+      version: "2.3"

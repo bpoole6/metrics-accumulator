@@ -138,12 +138,18 @@ metricGroups:
     maxTimeSeries: 2500
     apiKey: 0d98f65f-074b-4d56-b834-576e15a3bfa5
     restartCronExpression: "0 0 0 ? * *"
+    serviceDiscoveryLabels:
+      env: qa
+      version: v31
   metricGroup1:
     displayMetrics: true
     name: metric-group
     maxTimeSeries: 100
     apiKey: 0d98f65f-074b-4d56-b834-576e15a3bfa5
-    restartCronExpression: "0 0 0 ? * *"  
+    restartCronExpression: "0 0 0 ? * *"
+    serviceDiscoveryLabels:
+      env: test
+      version: v45 
 ```
 ### Configurations
 
@@ -160,13 +166,14 @@ metricGroups:
 
 #### Under MetricGroups
 
-| Attributes            | Description                                                                                                                                                                                                                                        |
-|-----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| displayMetrics        | Determines if prometheus should read your metrics or not.                                                                                                                                                                                          |
+| Attributes            | Description                                                                                                                                                                                                                                       |
+|-----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| displayMetrics        | Determines if prometheus should read your metrics or not.                                                                                                                                                                                         |
 | name                  | The name of the endpoint you'll push your metrics to.<br> For example if the `name` was *super-app* then the endpoint you'd need to POST your prometheus metrics is: `http://prometheus-metrics-accumulator.internal.q6cyber.com/update/super-app` |
-| maxTimeSeries         | The maximum number of timeseries you can have in memory for your service. To deal with stale time series we have the *restartCronExpression* your metrics from history.                                                                            |
-| apiKey                | The apikey must be passed in the header `X-API-KEY` when you POST your metrics. This helps to prevent an accidental POST to another metric Group or another environment such as prod/dev/qa.                                                       |
-| restartCronExpression |Used to set when your metrics are wiped from memory. This is useful getting rid of stale data. Ideally your data should be wiped at least once a week or more. |
+| maxTimeSeries         | The maximum number of timeseries you can have in memory for your service. To deal with stale time series we have the *restartCronExpression* your metrics from history.                                                                           |
+| apiKey                | The apikey must be passed in the header `X-API-KEY` when you POST your metrics. This helps to prevent an accidental POST to another metric Group or another environment such as prod/dev/qa.                                                      |
+| restartCronExpression | Used to set when your metrics are wiped from memory. This is useful getting rid of stale data. Ideally your data should be wiped at least once a week or more.                                                                                    |
+| serviceDiscoveryLabels | Additional labels to be added when scraping the serviceDiscovery endpoint. This is useful during the relabeling                                                                                                                                   |
 
 
 ## Service Discovery
@@ -190,7 +197,7 @@ The endpoint `/service-discovery` returns a json structure that prometheus uses 
   {
     "targets": [ "<hostAddress>"],
     "labels": {
-      "__meta_metrics_path": "metrics/<metricGroup>",
+      "__meta_metrics_path": "metrics/<metricGroup>"
     }
   },
   ...
