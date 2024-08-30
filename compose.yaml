@@ -9,11 +9,11 @@ services:
       PORT: 8080
     networks:
       - private-network
-#    healthcheck:
-#      test: [ "CMD", "wget", "-O", "-", "http://localhost:8080" ]
-#      interval: 20s
-#      timeout: 2s
-#      retries: 5
+    healthcheck:
+      test: [ "CMD", "wget", "-O", "-", "http://localhost:8080" ]
+      interval: 20s
+      timeout: 2s
+      retries: 5
 
   prometheus:
     container_name: prometheus-server
@@ -27,9 +27,9 @@ services:
       - prometheus:/etc/prometheus
     networks:
       - private-network
-#    depends_on:
-#      web:
-#        condition: service_healthy
+    depends_on:
+      web:
+        condition: service_healthy
 volumes:
   prometheus:
     driver: local
