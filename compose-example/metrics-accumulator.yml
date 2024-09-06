@@ -13,6 +13,7 @@ metricGroups:
     restartCronExpression: "0 0 0 ? * *"
     serviceDiscoveryLabels:
       env: test
+      job_name: default
   tps-report-lambda-function:
     displayMetrics: true
     name: tps-report
@@ -21,3 +22,4 @@ metricGroups:
     restartCronExpression: "0 0 0 ? * *"
     serviceDiscoveryLabels:
       env: accounting-prod
+      job_name: accounting-tps
