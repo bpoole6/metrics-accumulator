@@ -19,6 +19,9 @@
       * [Under MetricGroups](#under-metricgroups)
   * [Service Discovery](#service-discovery)
     * [How Does It Work?](#how-does-it-work)
+  * [Metrics Accumulator Clients](#metrics-accumulator-clients)
+    * [Python](#python)
+    * [Nodejs](#nodejs)
 <!-- TOC -->
 
 ## Description
@@ -219,3 +222,67 @@ scrape_configs:
 ```
 
 Prometheus will query the service discovery endpoint `http://localhost:8080/service-discovery` and relabel will replace the metrics path with `/metrics/<metricGroup>`. A target is created for every metric as defined in your configuration file
+
+## Metrics Accumulator Clients
+
+There's full client support 
+- [python](https://pypi.org/project/metrics-accumulator-client/)
+- [nodejs](https://www.npmjs.com/package/metrics-accumulator-client)
+
+There is a java example of a client found here
+- https://github.com/bpoole6/metrics-accumulator-clients/tree/main/java-client
+### Python
+
+**Installation**
+```bash
+python -m pip install metrics-accumulator-client
+```
+
+Example
+```python
+from Client import Client
+from prometheus_client import Counter,Gauge, CollectorRegistry, metrics
+metrics.disable_created_metrics() #*****Important****** If you don't set this then metrics accumulator will Amber Heard the bed
+registry = CollectorRegistry()
+c = Counter("hello_total", "dock", labelnames=['application'], registry=registry)
+c.labels(["app"]).inc()
+
+g = Gauge("man", "dock", labelnames=['application'], registry=registry)
+g.labels(["app"]).inc()
+
+client = Client("http://localhost:8080", "0d98f65f-074b-4d56-b834-576e15a3bfa5")
+client.update_metrics("default", registry)
+print(client.get_metric_group("default").content.decode())
+print(client.reload_configurations().status_code)
+print(client.reset_metric_group("default").status_code)
+print(client.service_discovery().status_code)
+print(client.current_configurations().status_code)
+```
+
+### Nodejs
+
+**Installation**
+```bash
+npm install metrics-accumulator-client
+```
+
+Example 
+
+```node
+import {Registry, Counter} from "prom-client"
+
+const registry = new Registry()
+new Counter({
+    name : "counter_example_total",
+    help: "help",
+    registers: [registry]
+})
+
+let client = new Client("http://localhost:8080", "0d98f65f-074b-4d56-b834-576e15a3bfa5")
+client.updateMetrics('default', registry).then(res=> console.log(res.statusCode + " " + res.content))
+client.getMetricGroup('default').then(res=> console.log(res.statusCode + " " + res.content))
+client.reloadConfigurations().then(res=> console.log(res.statusCode + " " + res.content))
+client.resetMetricGroup("default").then(res=> console.log(res.statusCode + " " + res.content))
+client.serviceDiscovery().then(res=> console.log(res.statusCode + " " + res.content))
+client.currentConfigurations().then(res=> console.log(res.statusCode + " " + res.content))
+```
