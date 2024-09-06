@@ -13,3 +13,11 @@ metricGroups:
     restartCronExpression: "0 0 0 ? * *"
     serviceDiscoveryLabels:
       env: test
+  tps-report-lambda-function:
+    displayMetrics: true
+    name: tps-report
+    maxTimeSeries: 2500
+    apiKey: n6985y5f-074b-4d96-y834-976e15a3bfBm
+    restartCronExpression: "0 0 0 ? * *"
+    serviceDiscoveryLabels:
+      env: accounting-prod
