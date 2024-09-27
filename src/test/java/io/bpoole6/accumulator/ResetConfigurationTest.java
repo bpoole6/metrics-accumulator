@@ -65,7 +65,7 @@ public class ResetConfigurationTest extends  BasicTest{
 				""";
     Group group = this.registryRepository.getRegistryMap().keySet().stream().findFirst().get();
     this.metricService.modifyMetrics(metrics, group);
-
+    Thread.sleep(metricService.sleepTimeBtwMetrics+500);
     MetricManager oldManager = this.registryRepository.getRegistryMap().values().stream().findFirst().get();
     Assertions.assertEquals(1, oldManager.getPrometheusRegistry().getPrometheusRegistry().scrape().size());
     oldManager.resetRegistries();

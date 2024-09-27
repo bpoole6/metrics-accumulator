@@ -63,7 +63,7 @@ class MetricsConsumerApplicationTests extends  BasicTest{
 				new String(metrics1.getContentAsByteArray()));
 		metricService.modifyMetrics(new String(metrics1.getContentAsByteArray()), defaultGroup);
 		metricService.modifyMetrics(new String(metrics1.getContentAsByteArray()), defaultGroup);
-
+		Thread.sleep(metricService.sleepTimeBtwMetrics+500);
 		PrometheusMeterRegistry prometheusRegistry =this.registryRepository.getRegistry(defaultGroup).getPrometheusRegistry();
 		String snapshot = prometheusRegistry.scrape();
 		List<MetricFamily> newMetrics =Utils.readMetrics(snapshot);
@@ -79,7 +79,7 @@ class MetricsConsumerApplicationTests extends  BasicTest{
 
 		this.metricService.modifyMetrics(olderMetrics, defaultGroup);
 		this.metricService.modifyMetrics(newerMetrics, defaultGroup);
-
+		Thread.sleep(metricService.sleepTimeBtwMetrics+500);
 		Gauge oldGauge = (Gauge) Utils.readMetrics(olderMetrics).get(0).getMetrics().get(0);
 		Gauge newGauge = (Gauge) Utils.readMetrics(this.registryRepository.getRegistry(defaultGroup).getPrometheusRegistry().scrape()).get(0).getMetrics().get(0);
 		Assertions.assertNotSame(oldGauge.getValue(), newGauge.getValue());
@@ -98,12 +98,13 @@ class MetricsConsumerApplicationTests extends  BasicTest{
 			strings += formatted.formatted(i,i,i);
 		}
 		this.metricService.modifyMetrics(strings, defaultGroup);
+		Thread.sleep(metricService.sleepTimeBtwMetrics+500);
 		Assertions.assertEquals(defaultGroup.getMaxTimeSeries(), this.registryRepository.getRegistry(defaultGroup).getPrometheusRegistry().getPrometheusRegistry().scrape().size());
 	}
 
 
 
-	public void evalMetricFamilies(List<MetricFamily> originalMetrics, List<MetricFamily> newMetrics) throws IOException {
+	public void evalMetricFamilies(List<MetricFamily> originalMetrics, List<MetricFamily> newMetrics) {
 		for (MetricFamily metricFamily : originalMetrics) {
 			Optional<MetricFamily> opt = newMetrics.stream()
 					.filter(i -> i.getName().equals(metricFamily.getName())).findFirst();

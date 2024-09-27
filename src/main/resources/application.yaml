@@ -13,3 +13,5 @@ management:
   metrics:
     tags:
       application: ${spring.application.name}
+maxBatchedMetrics: 200000
+sleepTimeBtwMetrics: 200 # milliseconds

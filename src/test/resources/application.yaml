@@ -8,3 +8,6 @@ metricGroup:
   file: "classpath:metric-groups.yml"
 host:
   address: "localhost:8081"
+
+maxBatchedMetrics: 100000
+sleepTimeBtwMetrics: 200 # milliseconds
