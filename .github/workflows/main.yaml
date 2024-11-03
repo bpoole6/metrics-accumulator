@@ -45,7 +45,7 @@ jobs:
           docker push bpoole6/test:$POM_VERSION
       - name: Commit Message
         id: commit_message
-        run: echo "commit_message=\"${{ steps.build_test.outputs.previous_pom_version }} >> ${{ steps.build_test.outputs.current_pom_version }}\"" >> $GITHUB_OUTPUT
+        run: echo "commit_message=\"Updating version from ${{ steps.build_test.outputs.previous_pom_version }} to ${{ steps.build_test.outputs.current_pom_version }}\"" >> $GITHUB_OUTPUT
       - name: Commit Changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
