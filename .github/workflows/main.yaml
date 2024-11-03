@@ -42,7 +42,7 @@ jobs:
         run: |
           POM_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           docker build -t bpoole6/metrics-accumulator:$POM_VERSION -t bpoole6/metrics-accumulator:latest .
-          docker push bpoole6/metrics-accumulator:$POM_VERSION  bpoole6/metrics-accumulator:latest
+          docker push bpoole6/metrics-accumulator --all-tags
       - name: Commit Message
         id: commit_message
         run: echo "commit_message=\"Updating version from ${{ steps.build_test.outputs.previous_pom_version }} to ${{ steps.build_test.outputs.current_pom_version }}\"" >> $GITHUB_OUTPUT
