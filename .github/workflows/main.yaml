@@ -2,7 +2,7 @@ name: Deploy website
 on:
   push:
     branches:
-      - develop
+      - main
   workflow_dispatch:
 
 
@@ -22,10 +22,6 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-      - name: Increment Version
-        id: version
-        run: |
-          mvn
       - name: build and test
         run: |
           JAVA_HOME=$JAVA_HOME_17_X64 \
