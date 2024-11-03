@@ -35,7 +35,7 @@ jobs:
       - name: Build Dockerfile
         run: |
           POM_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-          docker build -t bpoole6/test:$POM_VERSION
+          docker build -t bpoole6/test:$POM_VERSION .
           docker push
 
 
