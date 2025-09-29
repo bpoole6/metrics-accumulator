@@ -1,0 +1,34 @@
+---
+version: 2
+updates:
+  # 1) Weekly MINOR/PATCH Maven updates
+  - package-ecosystem: "maven"
+    reviewers:
+      - 'bpoole6'
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "America/New_York"
+    # Exclude majors from this weekly job
+    ignore:
+      - dependency-name: "*"
+        update-types:
+          - "version-update:semver-major"
+
+  # 2) Bi-weekly MAJOR Maven updates (1st & 15th at 09:00 ET)
+  - package-ecosystem: "maven"
+    reviewers:
+      - 'bpoole6'
+    directory: "/"
+    schedule:
+      interval: "cron"
+      cronjob: "0 9 1,15 * *"
+      timezone: "America/New_York"
+    # Exclude minor/patch from this bi-weekly job
+    ignore:
+      - dependency-name: "*"
+        update-types:
+          - "version-update:semver-minor"
+          - "version-update:semver-patch"
