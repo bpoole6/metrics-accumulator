@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>io.bpoole6</groupId>
 	<artifactId>metrics-accumulator</artifactId>
-	<version>2.0.0</version>
+	<version>2.0.1</version>
 	<name>metrics-accumulator</name>
 	<description>Aggregate metrics for ephemeral jobs</description>
 	<properties>
